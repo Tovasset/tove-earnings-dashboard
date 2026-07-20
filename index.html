@@ -1,0 +1,126 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="300">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skipper 실적개선 모니터</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F6F8;--card:#FFF;--text:#191F28;--sub:#8B95A1;--line:#E5E8EB;
+--primary:#3182F6;--up:#2BB673;--upweak:#D6F5E8;--uptext:#0E9A62;--down:#F04452;
+--downweak:#FFE2E5;--live:#FF9500;--liveweak:#FFF1DC;
+--font-sans:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#101013;--card:#17171C;--text:#E5E8EB;
+--sub:#8B95A1;--line:#2C2C35;--up:#2BD98E;--upweak:#123527;--uptext:#2BD98E;
+--down:#FF5A6A;--downweak:#3A1A1E;--live:#FF9F0A;--liveweak:#3A2C12}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;padding:28px 20px 60px}
+.wrap{max-width:1040px;margin:0 auto}
+.wmk{font-family:'Sora',var(--font-sans);font-weight:800;letter-spacing:-.03em;line-height:1;display:inline-flex;align-items:baseline;font-size:22px}
+.wmk .tt{position:relative;display:inline-block;line-height:1}
+.wmk .tt .star{position:absolute;left:50%;transform:translateX(-50%);width:.92em;height:.92em;top:-.56em;color:var(--primary)}
+header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+header .sub{color:var(--sub);font-size:13px}
+.gen{color:var(--sub);font-size:12px;margin-bottom:20px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.tile b{display:block;font-size:24px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.tile span{font-size:12px;color:var(--sub)}
+.tile.a b{color:var(--uptext)}.tile.p b{color:var(--live)}.tile.e b{color:var(--down)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.pill{border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:999px;
+padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit}
+.pill.on{background:var(--primary);border-color:var(--primary);color:#fff}
+input.pill{cursor:text;color:var(--text);min-width:180px}
+input.pill::placeholder{color:var(--sub)}
+.day{margin:22px 0 8px;font-size:13px;color:var(--sub);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:8px}
+.row1{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.corp{font-weight:700;font-size:15px;text-decoration:none;color:var(--text)}
+.corp:hover{color:var(--primary)}
+.code,.meta{color:var(--sub);font-size:12px;font-variant-numeric:tabular-nums}
+.badge{margin-left:auto;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.b-alerted{background:var(--upweak);color:var(--uptext)}
+.b-dropped{background:var(--line);color:var(--sub)}
+.b-pending{background:var(--liveweak);color:var(--live)}
+.b-error{background:var(--downweak);color:var(--down)}
+.bases{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid var(--line);border-radius:10px;padding:5px 10px;font-size:12px;
+font-variant-numeric:tabular-nums;color:var(--sub)}
+.chip.hit{border-color:var(--up);background:var(--upweak);color:var(--uptext)}
+.chip b{font-weight:700;color:inherit}
+.pos{color:var(--uptext)}.neg{color:var(--down)}
+.empty{color:var(--sub);text-align:center;padding:48px 0}
+.livedot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--live);
+margin-right:5px;vertical-align:1px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+</style></head><body><div class="wrap">
+<header>
+ <b class="wmk">Sk<span class="tt">&#305;<svg class="star" viewBox="0 0 64 64"><path fill="currentColor" d="M32 3 L34.3 26.5 L41.9 22.1 L37.5 29.7 L58 32 L37.5 34.3 L41.9 41.9 L34.3 37.5 L32 58 L29.7 37.5 L22.1 41.9 L26.5 34.3 L6 32 L26.5 29.7 L22.1 22.1 L29.7 26.5 Z"/></svg></span>pper</b>
+ <span class="sub">실적개선 모니터 — 성장 + GPM 개선</span>
+</header>
+<div class="gen"><span class="livedot"></span>생성 2026-07-20 10:43 · 매시간 스캔 · 이 페이지는 5분마다 자동 새로고침</div>
+<div class="tiles">
+ <div class="tile"><b id="t-all">0</b><span>스캔한 공시</span></div>
+ <div class="tile a"><b id="t-alerted">0</b><span>✅ 알림</span></div>
+ <div class="tile"><b id="t-dropped">0</b><span>드랍 (조건 미충족)</span></div>
+ <div class="tile p"><b id="t-pending">0</b><span>재무 데이터 대기</span></div>
+ <div class="tile e"><b id="t-error">0</b><span>오류</span></div>
+</div>
+<div class="bar" id="filters">
+ <button class="pill on" data-f="all">전체</button>
+ <button class="pill" data-f="alerted">✅ 알림</button>
+ <button class="pill" data-f="dropped">드랍</button>
+ <button class="pill" data-f="pending">대기</button>
+ <button class="pill" data-f="error">오류</button>
+ <input class="pill" id="q" placeholder="기업명 검색">
+</div>
+<div id="list"></div>
+</div><script>
+const DATA = {"20260716000557": {"rcept_no": "20260716000557", "corp": "엠로", "stock": "058970", "market": "K", "report": "[기재정정]분기보고서 (2026.03)", "rcept_dt": "20260716", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260716000549": {"rcept_no": "20260716000549", "corp": "엠로", "stock": "058970", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260716", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260716000527": {"rcept_no": "20260716000527", "corp": "하이로닉", "stock": "149980", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260716", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260716000447": {"rcept_no": "20260716000447", "corp": "온코크로스", "stock": "382150", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260716", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260715000540": {"rcept_no": "20260715000540", "corp": "톱텍", "stock": "108230", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260715", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260715000140": {"rcept_no": "20260715000140", "corp": "코이즈", "stock": "121850", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260715", "ts": "2026-07-16 16:35", "fs": "", "status": "pending", "reason": "재무 데이터 대기", "results": []}, "20260714000499": {"rcept_no": "20260714000499", "corp": "에이루트", "stock": "096690", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260714", "ts": "2026-07-16 16:35", "fs": "연결", "status": "dropped", "reason": "조건 미충족", "results": [{"label": "YoY(연간)", "rev_g": -26.224300837092002, "op_g": 47.47743311064086, "gpm_c": 18.75282927578693, "gpm_p": 20.724518927655286, "gpm_d": -1.9716896518683562, "pass": false}], "backlog": {"cur": 4316.0, "prev": 4393.0, "growth": -1.7527885272023673, "basis": "직전보고서 대비", "pass": false}}, "20260714000388": {"rcept_no": "20260714000388", "corp": "멤레이비티", "stock": "072770", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260714", "ts": "2026-07-16 16:35", "fs": "연결", "status": "alerted", "reason": "", "results": [{"label": "YoY(연간)", "rev_g": -31.131121469559332, "op_g": 0.46997799220705927, "gpm_c": 22.79131316071241, "gpm_p": 16.598272065364267, "gpm_d": 6.193041095348143, "pass": true}], "backlog": {"cur": 6603794000.0, "prev": 11304441000.0, "growth": -41.582303804319025, "basis": "직전보고서 대비", "pass": false}}, "20260714000375": {"rcept_no": "20260714000375", "corp": "비츠로넥스텍", "stock": "488900", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260714", "ts": "2026-07-16 16:35", "fs": "별도", "status": "alerted", "reason": "", "results": [{"label": "YoY(연간)", "rev_g": 21.119016476629962, "op_g": 47.64303298411202, "gpm_c": 6.608208753893257, "gpm_p": -4.469628510181457, "gpm_d": 11.077837264074713, "pass": true}], "backlog": null}, "20260714000336": {"rcept_no": "20260714000336", "corp": "수성웹툰", "stock": "084180", "market": "K", "report": "[기재정정]사업보고서 (2025.12)", "rcept_dt": "20260714", "ts": "2026-07-16 16:35", "fs": "연결", "status": "alerted", "reason": "", "results": [{"label": "YoY(연간)", "rev_g": 69.4976729929565, "op_g": 519.2138548185991, "gpm_c": 67.54558518259456, "gpm_p": 38.54721696590603, "gpm_d": 28.998368216688533, "pass": true}], "backlog": null}};
+const LABEL = {alerted:"✅ 알림", dropped:"드랍", pending:"⏳ 대기", error:"오류"};
+const MARKET = {Y:"KOSPI", K:"KOSDAQ"};
+let filter = "all", q = "";
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function pct(v,s){return v==null?"n/a":(v>0?"+":"")+v.toFixed(1)+(s||"%")}
+function cls(v){return v==null?"":(v>0?"pos":v<0?"neg":"")}
+function chip(r){
+ return `<span class="chip ${r.pass?"hit":""}">${esc(r.label)} · 매출 <b class="${cls(r.rev_g)}">${pct(r.rev_g)}</b> · 영업이익 <b class="${cls(r.op_g)}">${pct(r.op_g)}</b> · GPM ${r.gpm_p.toFixed(1)}→${r.gpm_c.toFixed(1)} <b class="${cls(r.gpm_d)}">(${pct(r.gpm_d,"%p")})</b></span>`}
+function bkchip(bk){
+ const uk = v => (v/1e8).toLocaleString(undefined,{maximumFractionDigits:0});
+ return `<span class="chip ${bk.pass?"hit":""}">📦 수주잔고(${esc(bk.basis||"직전보고서 대비")}) · ${uk(bk.prev)}억 → ${uk(bk.cur)}억 <b class="${cls(bk.growth)}">(${pct(bk.growth)})</b></span>`}
+function card(h){
+ const dart = "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=" + h.rcept_no;
+ const reason = h.reason ? ` · ${esc(h.reason)}` : "";
+ const chips = (h.results||[]).map(chip).join("") + (h.backlog?bkchip(h.backlog):"");
+ return `<div class="card"><div class="row1">
+  <a class="corp" href="${dart}" target="_blank">${esc(h.corp)}</a>
+  <span class="code">${esc(h.stock)} ${MARKET[h.market]||""}</span>
+  <span class="meta">${esc(h.report)}${h.fs?" · "+esc(h.fs):""} · 확인 ${esc(h.ts)}</span>
+  <span class="badge b-${h.status}">${LABEL[h.status]||h.status}${h.status!=="alerted"?reason:""}</span>
+ </div>${chips?`<div class="bases">${chips}</div>`:""}</div>`}
+function render(){
+ const rows = Object.values(DATA)
+  .filter(h => filter==="all" || h.status===filter)
+  .filter(h => !q || h.corp.toLowerCase().includes(q))
+  .sort((a,b) => (b.rcept_dt+b.ts).localeCompare(a.rcept_dt+a.ts));
+ const all = Object.values(DATA);
+ for (const s of ["alerted","dropped","pending","error"])
+  document.getElementById("t-"+s).textContent = all.filter(h=>h.status===s).length;
+ document.getElementById("t-all").textContent = all.length;
+ let html = "", day = "";
+ for (const h of rows){
+  const d = h.rcept_dt ? `${h.rcept_dt.slice(0,4)}.${h.rcept_dt.slice(4,6)}.${h.rcept_dt.slice(6,8)}` : "날짜미상";
+  if (d !== day){ day = d; html += `<div class="day">${d} 공시</div>`; }
+  html += card(h);
+ }
+ document.getElementById("list").innerHTML = html || `<div class="empty">표시할 공시가 없습니다</div>`;
+}
+document.getElementById("filters").addEventListener("click", e=>{
+ if(!e.target.dataset.f) return;
+ filter = e.target.dataset.f;
+ document.querySelectorAll("#filters .pill[data-f]").forEach(b=>b.classList.toggle("on", b.dataset.f===filter));
+ render();
+});
+document.getElementById("q").addEventListener("input", e=>{q=e.target.value.trim().toLowerCase();render()});
+render();
+</script></body></html>
